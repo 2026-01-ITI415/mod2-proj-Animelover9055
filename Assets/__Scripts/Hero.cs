@@ -127,10 +127,14 @@ public class Hero : MonoBehaviour
             _shieldLevel = Mathf.Min(value, 4);                             // d
             // If the shield is going to be set to less than zero…
             if (value < 0)
-            {                                                  // e
-                Destroy(this.gameObject);  // Destroy the Hero
-                Main.HERO_DIED();
-            }
+{
+    if (GameUI.S != null)
+    {
+        GameUI.S.ShowDeathMessage();
+    }
+
+    StartCoroutine(RestartAfterDeath());
+}
         }
     }
 
@@ -190,5 +194,12 @@ public class Hero : MonoBehaviour
         }
         pUp.AbsorbedBy(this.gameObject);
     }
+IEnumerator RestartAfterDeath()
+{
+    Destroy(this.gameObject);
 
+    yield return new WaitForSeconds(2f);
+
+    Main.HERO_DIED();
+}
 }
