@@ -196,7 +196,17 @@ public class Hero : MonoBehaviour
     }
 IEnumerator RestartAfterDeath()
 {
-    Destroy(this.gameObject);
+    Renderer[] renderers = GetComponentsInChildren<Renderer>();
+    foreach (Renderer r in renderers)
+    {
+        r.enabled = false;
+    }
+
+    Collider[] colliders = GetComponentsInChildren<Collider>();
+    foreach (Collider c in colliders)
+    {
+        c.enabled = false;
+    }
 
     yield return new WaitForSeconds(2f);
 
